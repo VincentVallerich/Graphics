@@ -9,6 +9,7 @@ import graphics.shapes.ShapeVisitor;
 import graphics.shapes.attributes.ColorAttributes;
 import graphics.shapes.attributes.FontAttributes;
 import graphics.shapes.attributes.SelectionAttributes;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -16,7 +17,12 @@ import java.util.Iterator;
 
 public class ShapesDraftman implements ShapeVisitor {
   public static final int HANDLER_SIZE = 2;
-  private ColorAttributes DEFAULTCOLORATTRIBUTES = new ColorAttributes();
+  private ColorAttributes DEFAULTCOLORATTRIBUTES = new ColorAttributes(
+    true,
+    true,
+    Color.WHITE,
+    Color.WHITE
+  );
   private Graphics2D g2d;
 
   public ShapesDraftman(Graphics g) {
@@ -82,15 +88,32 @@ public class ShapesDraftman implements ShapeVisitor {
   }
 
   public boolean isHandled(Shape s) {
-    return ((SelectionAttributes)s.getAttributes("SelectionAttributes")).isSelected();
+    return (
+      (SelectionAttributes) s.getAttributes("SelectionAttributes")
+    ).isSelected();
   }
 
   public void paintHandler(Rectangle bounds) {
-    Rectangle topLeft = new Rectangle(bounds.x-(HANDLER_SIZE/2), bounds.y-(HANDLER_SIZE/2), 0, 0);
-    Rectangle bottomRight = new Rectangle(bounds.x + bounds.width, bounds.y + bounds.height, 0, 0);
+    Rectangle topLeft = new Rectangle(
+      bounds.x - (HANDLER_SIZE / 2),
+      bounds.y - (HANDLER_SIZE / 2),
+      0,
+      0
+    );
+    Rectangle bottomRight = new Rectangle(
+      bounds.x + bounds.width,
+      bounds.y + bounds.height,
+      0,
+      0
+    );
     topLeft.grow(HANDLER_SIZE, HANDLER_SIZE);
     bottomRight.grow(HANDLER_SIZE, HANDLER_SIZE);
     g2d.drawRect(topLeft.x, topLeft.y, topLeft.width, topLeft.height);
-    g2d.drawRect(bottomRight.x, bottomRight.y, bottomRight.width, bottomRight.height);
+    g2d.drawRect(
+      bottomRight.x,
+      bottomRight.y,
+      bottomRight.width,
+      bottomRight.height
+    );
   }
 }

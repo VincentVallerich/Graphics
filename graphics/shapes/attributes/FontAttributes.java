@@ -2,26 +2,34 @@ package graphics.shapes.attributes;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+
 
 public class FontAttributes extends Attributes {
-  private Font DEFAULTFONT = new Font("Arial", Font.PLAIN, 14);
-  public Font font = DEFAULTFONT;
 
-  private Color DEFAULTCOLOR = Color.BLACK;
-  public Color fontColor = DEFAULTCOLOR;
-
-  @Override
-  public String getId() {
-    return "FontAttributes";
-  }
-
-  public Rectangle getBounds(String str) {
-    FontRenderContext frc = new FontRenderContext(null, false, false);
-    Rectangle2D bounds = font.getStringBounds(str, frc);
-
-    return bounds.getBounds();
-  }
+	private String id="fontAttribute";
+	public Font font;
+	public Color fontColor;
+	
+	public String getID()
+	{
+		return id;
+	}
+	
+	public Rectangle getBounds(String s)
+	{
+		BufferedImage off_Image = new BufferedImage(100, 50,BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g2 = off_Image.createGraphics();
+		FontMetrics m=g2.getFontMetrics(this.font);
+		
+		return new Rectangle(0,0,m.stringWidth(s),m.getHeight());
+	}
+	
+	public FontAttributes()
+	{
+		this.font=new Font("Arial",0,18);
+	}
 }

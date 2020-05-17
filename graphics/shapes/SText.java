@@ -1,64 +1,56 @@
 package graphics.shapes;
 
-import graphics.shapes.attributes.FontAttributes;
+
 import java.awt.Point;
 import java.awt.Rectangle;
 
-public class SText extends Shape {
-  private String text = "";
-  private Point loc = new Point(0, 0);
+import graphics.shapes.attributes.FontAttributes;
 
-  public SText(Point p, String text) {
-    this.loc = p;
-    this.text = text;
-  }
+public class SText extends Shape{
 
-  /**
-   * @param text the text to set
-   */
-  public void setText(String text) {
-    this.text = text;
-  }
-
-  /**
-   * @return the text
-   */
-  public String getText() {
-    return this.text;
-  }
-
-  @Override
-  public Point getLoc() {
-    return this.loc;
-  }
-
-  @Override
-  public void setLoc(Point p) {
-    this.loc = p;
-  }
-
-  @Override
-  public void translate(int x, int y) {
-    getLoc().x += x;
-    getLoc().y += x;
-  }
-
-  @Override
-  public Rectangle getBounds() {
-    FontAttributes fa = (FontAttributes) this.getAttributes("FontAttributes");
-    Rectangle textBounds = fa.getBounds(this.text);
-    Rectangle bounds = new Rectangle();
-
-    bounds.x = this.loc.x;
-    bounds.y = this.loc.y;
-    bounds.width = textBounds.width;
-    bounds.height = textBounds.height;
-
-    return bounds;
-  }
-
-  @Override
-  public void accept(ShapeVisitor v) {
-    v.visitText(this);
-  }
+	private String text;
+	private Point loc;
+	
+	public SText(Point p,String s)
+	{
+		this.loc=p;
+		this.text=s;
+	}
+	
+	public String getText()
+	{
+		return this.text;
+	}
+	
+	public void setText(String t)
+	{
+		this.text=t;
+	}
+	
+	public Point getLoc()
+	{
+		return this.loc;
+	}
+	
+	public void setLoc(Point p)
+	{
+		this.loc=p;
+	}
+	
+	public void translate(int dx,int dy)
+	{
+		this.loc.translate(dx, dy);
+	}
+	
+	public Rectangle getBounds()
+	{
+		String id=new FontAttributes().getID();
+		Rectangle r1=((FontAttributes) this.getAttributes(id)).getBounds(this.getText());
+		return new Rectangle(this.getLoc().x,this.getLoc().y-r1.height,r1.width,r1.height);
+	}
+	
+	public void accept(ShapeVisitor v)
+	{
+		v.visitText(this);
+	}
 }

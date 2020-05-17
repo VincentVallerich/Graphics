@@ -4,49 +4,41 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 public class SRectangle extends Shape {
-  private Rectangle rect = new Rectangle();
-  private Point loc = new Point(0,0);
 
-  public SRectangle(Point p, int width, int height) {
-    this.rect.x = p.x;
-    this.rect.y = p.y;
-    this.rect.width = width;
-    this.rect.height = height;
-  }
-
-  /**
-   * @return the rect
-   */
-  public Rectangle getRect() {
-    return rect;
-  }
-
-  @Override
-  public Point getLoc() {
-    return loc;
-  }
-
-  /**
-   * @param the Point p
-   */
-  public void setLoc(Point p) {
-    this.rect.x = p.x;
-    this.rect.y = p.y;
-  }
-
-  public void translate(int x, int y) {
-    this.loc.x += x;
-    this.loc.y += y;
-  }
-
-  /**
-   * @return th rect as bounds
-   */
-  public Rectangle getBounds() {
-    return this.rect;
-  }
-
-  public void accept(ShapeVisitor v) {
-    v.visitRectangle(this);
-  }
+	private Rectangle rec;
+	
+	public SRectangle(Point p,int width,int height)
+	{
+		this.rec=new Rectangle(p.x,p.y,width,height);
+	}
+	
+	public Rectangle getRect()
+	{
+		return this.rec;
+	}
+	
+	public Point getLoc()
+	{
+		return new Point(this.rec.x,this.rec.y);
+	}
+	
+	public void setLoc(Point p)
+	{
+		this.rec.setLocation(p);
+	}
+	
+	public void translate(int dx,int dy)
+	{
+		this.rec.translate(dx, dy);	
+	}
+	
+	public Rectangle getBounds()
+	{
+		return this.rec;
+	}
+	
+	public void accept(ShapeVisitor v)
+	{
+		v.visitRectangle(this);
+	}
 }
