@@ -10,31 +10,6 @@ public class RunTests extends JFrame {
   ShapesView sview;
   SCollection model;
 
-  /*
-  public static void main(String[] args) {
-    CollectionBounds cbt = new CollectionBounds();
-    cbt.run();
-
-    for (int i = 0; i < 4; i++) {
-      SRectangle r = new SRectangle(
-        new Point(getRandom(), getRandom()),
-        getRandom(),
-        getRandom()
-      );
-      SCircle s = new SCircle(new Point(getRandom(), getRandom()), getRandom());
-
-      Rectangle rect = r.getRect();
-      compareBounds(
-        r.getBounds(),
-        expectedBounds(rect.x, rect.y, rect.width, rect.height)
-      );
-      compareBounds(
-        s.getBounds(),
-        expectedBounds(s.getLoc().x, s.getLoc().y, s.radius)
-      );
-    }
-  }*/
-
   public static int getRandom() {
     return (int) (Math.random() * 20);
   }
