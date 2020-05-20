@@ -5,6 +5,7 @@ import graphics.ui.Controller;
 import graphics.ui.View;
 import java.awt.Graphics;
 
+@SuppressWarnings ("serial")
 public class ShapesView extends View {
 
   public ShapesView(Object model) {

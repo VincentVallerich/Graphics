@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class RunTests extends JFrame {
   ShapesView sview;
   SCollection model;
