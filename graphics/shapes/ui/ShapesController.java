@@ -123,7 +123,7 @@ public class ShapesController extends Controller {
       this.shift = true;
     }
 
-    if (this.state == 0 && evt.getKeyCode() == 71) {
+    if (this.state == 0 && evt.getKeyCode() == 71){
       gameModel();
       end = false;
     }

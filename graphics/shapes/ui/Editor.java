@@ -32,7 +32,7 @@ public class Editor extends JFrame {
 
     this.sview = new ShapesView(this.model);
     this.sview.setPreferredSize(new Dimension(300, 300));
-    this.setJMenuBar(new Menu().createMenu());
+    this.setJMenuBar(new Menu().createMenu(this.model));
     this.getContentPane().add(this.sview, java.awt.BorderLayout.CENTER);
   }
 
