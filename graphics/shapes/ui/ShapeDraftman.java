@@ -3,9 +3,13 @@ package graphics.shapes.ui;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.geom.Line2D;
 import java.util.Iterator;
 
+import graphics.shapes.SCurve;
+import graphics.shapes.SPolygon;
 import graphics.shapes.SCircle;
 import graphics.shapes.SCollection;
 import graphics.shapes.SRectangle;
@@ -23,6 +27,36 @@ public class ShapeDraftman implements graphics.shapes.ShapeVisitor {
 	public ShapeDraftman(Graphics g)
 	{
 		this.g2=(Graphics2D) g;
+	}
+	
+
+	public void visitPolygon(SPolygon pol) {
+		String idc=new ColorAttributes(true, false, Color.white, Color.white).getID();
+		String ids=new SelectionAttributes().getID();
+		
+		ColorAttributes ca=(ColorAttributes) pol.getAttributes(idc);
+		SelectionAttributes sa=(SelectionAttributes) pol.getAttributes(ids);
+		
+		Polygon poly = pol.getPolygon();
+		
+		if(ca==null) ca=this.DEFAULTCOLORATTRIBUTES;
+		
+		if(ca.stroked)
+		{
+			this.g2.setColor(ca.strokedColor);
+			this.g2.drawPolygon(poly);
+		}
+			
+		if(ca.filled)
+		{
+			this.g2.setColor(ca.filledColor);
+			this.g2.fillPolygon(poly);;
+		}
+		
+		if(sa.isSelected())
+		{
+			this.drawHandler(pol.getBounds());
+		}
 	}
 	
 	public void visitRectangle(SRectangle sr) {
@@ -53,9 +87,13 @@ public class ShapeDraftman implements graphics.shapes.ShapeVisitor {
 		{
 			this.drawHandler(r);
 		}
+		
+		
 	}
+
 	
 	public void visitCircle(SCircle sc) {
+		
 		String idc=new ColorAttributes(true, false, Color.white, Color.white).getID();
 		String ids=new SelectionAttributes().getID();
 		
@@ -82,7 +120,10 @@ public class ShapeDraftman implements graphics.shapes.ShapeVisitor {
 		{
 			this.drawHandler(r);
 		}
+		
+		
 	}
+
 	
 	public void visitText(SText st) {
 		
@@ -108,12 +149,18 @@ public class ShapeDraftman implements graphics.shapes.ShapeVisitor {
 		{
 			this.drawHandler(r);
 		}
+
 	}
+
 	
 	public void visitCollection(SCollection s) {
 		
 		Iterator<Shape> iterator=s.iterator();
+		
+		
 		String ids=new SelectionAttributes().getID();
+		
+		
 		SelectionAttributes sa=(SelectionAttributes) s.getAttributes(ids);
 		
 		while(iterator.hasNext())
@@ -125,7 +172,22 @@ public class ShapeDraftman implements graphics.shapes.ShapeVisitor {
 		if(sa.isSelected())
 		{
 			this.drawHandler(s.getBounds());
+		}	
+		
+	}
+	
+	public void visitCurve(SCurve s) {
+		Double step = s.time/100;
+		Double x = 0.0;
+		Double y = 0.0;
+		
+		for (int i=0; i<100; i++) {
+			java.awt.Shape l = new Line2D.Double(s.fx.apply(x)+s.loc.x, s.fy.apply(y)+s.loc.y, s.fx.apply(x+step)+s.loc.x, s.fy.apply(y+step)+s.loc.y);
+			x = x+step;
+			y = y+step;
+			this.g2.draw(l);
 		}
+		
 	}
 	
 	public void drawHandler(Rectangle bounds)
@@ -136,4 +198,5 @@ public class ShapeDraftman implements graphics.shapes.ShapeVisitor {
 		this.g2.drawRect(top.x,top.y,top.width,top.height);
 		this.g2.drawRect(bot.x,bot.y,bot.width,bot.height);
 	}
+
 }
