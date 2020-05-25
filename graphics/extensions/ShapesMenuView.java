@@ -119,9 +119,7 @@ public class ShapesMenuView extends View{
 
         /*To prevent ghost components*/
         this.removeAll();
-        
         add(shapeSelector);
-        validate();
         add(locX);
         add(locY);
         add(filledButton);
