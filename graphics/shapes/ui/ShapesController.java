@@ -123,29 +123,30 @@ public class ShapesController extends Controller {
       this.shift = true;
     }
 
-    if (this.state == 0 && evt.getKeyCode() == 71){
+    if (this.state == 0 && evt.getKeyCode() == 71) {
       gameModel();
       end = false;
     }
 
-    if (this.onGame && evt.getKeyCode() == 38 && !this.end) {
-      this.up();
-      this.check();
-    }
-
-    if (this.onGame && evt.getKeyCode() == 40 && !this.end) {
-      this.down();
-      this.check();
-    }
-
-    if (this.onGame && evt.getKeyCode() == 39 && !this.end) {
-      this.right();
-      this.check();
-    }
-
-    if (this.onGame && evt.getKeyCode() == 37 && !this.end) {
-      this.left();
-      this.check();
+    if (this.onGame && !this.end) {
+      switch (evt.getKeyCode()) {
+        case 38:
+          this.up();
+          this.check();
+          break;
+        case 40:
+          this.down();
+          this.check();
+          break;
+        case 39:
+          this.right();
+          this.check();
+          break;
+        case 37:
+          this.left();
+          this.check();
+          break;
+      }
     }
   }
 

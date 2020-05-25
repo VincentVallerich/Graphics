@@ -11,8 +11,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
-import graphics.shapes.SCollection;
-
 /**
  * Author VALLERICH Vincent
  */
@@ -47,7 +45,7 @@ public class Menu {
     playGameItem.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             /**
-             * Emulate ctrl+g to access to the game
+             * Emulate g to access to the game
              */
             try {
                 keyPressedEmulate = new Robot();
