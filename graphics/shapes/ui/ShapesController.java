@@ -70,64 +70,59 @@ public class ShapesController extends Controller {
   }
 
   public void mousePressed(MouseEvent e) {
-	  if(this.onGame==false)
-	  {
-    if (this.state == 0) {
-      s = this.getTarget(e);
+    if (this.onGame == false) {
+      if (this.state == 0) {
+        s = this.getTarget(e);
 
-      this.state = 1;
+        this.state = 1;
 
-      String id = new SelectionAttributes().getID();
+        String id = new SelectionAttributes().getID();
 
-      if (
-        s == null || !((SelectionAttributes) s.getAttributes(id)).isSelected()
-      ) {
-        this.state = 2;
-      }
+        if (
+          s == null || !((SelectionAttributes) s.getAttributes(id)).isSelected()
+        ) {
+          this.state = 2;
+        }
 
-      if (
-        s != null && ((SelectionAttributes) s.getAttributes(id)).isSelected()
-      ) {
-        this.state = 0;
+        if (
+          s != null && ((SelectionAttributes) s.getAttributes(id)).isSelected()
+        ) {
+          this.state = 0;
+        }
       }
     }
-	  }
   }
 
   public void mouseReleased(MouseEvent e) {
-	  if(this.onGame==false)
-	  {
-		  if (this.state == 2) {
-		      this.state = 0;
-		    }
-		    this.prev = null;
-	  }
-   
+    if (this.onGame == false) {
+      if (this.state == 2) {
+        this.state = 0;
+      }
+      this.prev = null;
+    }
   }
 
   public void mouseClicked(MouseEvent e) {
-	  if(this.onGame==false)
-	  {
-		  this.s = getTarget(e);
-		    this.state = 3;
+    if (this.onGame == false) {
+      this.s = getTarget(e);
+      this.state = 3;
 
-		    if (this.s == null) {
-		      if (!this.shiftDown()) {
-		        this.unselectAll();
-		      }
-		    } else {
-		      if (!this.shiftDown()) {
-		        this.unselectAll();
-		      }
-		      String id = new SelectionAttributes().getID();
+      if (this.s == null) {
+        if (!this.shiftDown()) {
+          this.unselectAll();
+        }
+      } else {
+        if (!this.shiftDown()) {
+          this.unselectAll();
+        }
+        String id = new SelectionAttributes().getID();
 
-		      ((SelectionAttributes) s.getAttributes(id)).toggleSelection();
-		    }
-		    this.state = 0;
+        ((SelectionAttributes) s.getAttributes(id)).toggleSelection();
+      }
+      this.state = 0;
 
-		    this.getView().invalidate();
-	  }
-  
+      this.getView().invalidate();
+    }
   }
 
   public void keyPressed(KeyEvent evt) {
@@ -144,7 +139,6 @@ public class ShapesController extends Controller {
 		
 	}	
     if (this.onGame && !this.end) {
-    	System.out.println(evt.getKeyCode());
       switch (evt.getKeyCode()) {
         case 38:
           this.up();
@@ -163,14 +157,12 @@ public class ShapesController extends Controller {
           this.check();
           break;
         case 82:
-        	this.restart();
-        	break;
-        	
+          this.restart();
+          break;
       }
     }
-    if (end && evt.getKeyCode()==82)
-    {
-  	this.restart();
+    if (end && evt.getKeyCode() == 82) {
+      this.restart();
     }
   }
 
@@ -201,7 +193,6 @@ public class ShapesController extends Controller {
   public Boolean end = false;
   public int score = 0;
   public int highScore = 0;
- 
 
   public void gameModel() {
     if (onGame == false) {
@@ -221,20 +212,19 @@ public class ShapesController extends Controller {
     this.getView().invalidate();
   }
 
-  public void restart()
-  {
-	  SCollection m = new SCollection();
-      m.addAttributes(new SelectionAttributes());
+  public void restart() {
+    SCollection m = new SCollection();
+    m.addAttributes(new SelectionAttributes());
 
-      new Game(m);
+    new Game(m);
 
-      this.setModel(m);
-      this.getView().setModel(m);
-      this.getView().invalidate();
-      onGame=true;
-      end=false;
+    this.setModel(m);
+    this.getView().setModel(m);
+    this.getView().invalidate();
+    onGame = true;
+    end = false;
   }
-  
+
   public void up() {
     Shape shape = null;
     SCollection model = (SCollection) this.getModel();
@@ -417,8 +407,7 @@ public class ShapesController extends Controller {
               new Point(100, 200),
               "High score: " + String.valueOf(highScore / 2)
             );
-            
-           
+
             t3.addAttributes(
               new ColorAttributes(true, true, Color.LIGHT_GRAY, Color.RED)
             );
