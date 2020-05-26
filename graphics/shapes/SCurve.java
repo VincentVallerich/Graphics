@@ -43,11 +43,4 @@ public class SCurve extends Shape {
 	public void accept(ShapeVisitor v) {
 		v.visitCurve(this);
 	}
-	
-	private Double findMax(Function f, Double lb, Double ub) {
-		Double step = 0.1;
-		
-		return null;
-	}
-
 }

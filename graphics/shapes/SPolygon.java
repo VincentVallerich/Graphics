@@ -5,7 +5,6 @@ package graphics.shapes;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
-import java.util.Collection;
 
 public class SPolygon extends Shape {
 	
