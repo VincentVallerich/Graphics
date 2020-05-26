@@ -56,6 +56,20 @@ public class Editor extends JFrame {
     t.addAttributes(new SelectionAttributes());
     this.model.add(t);
 
+	Function <Double,Double> fx = a -> 10*Math.pow(Math.sin(a), 3);
+	Function<Double,Double> fy = a -> 10*(Math.cos(a) - Math.pow(Math.cos(a), 4));
+	SCurve h = new SCurve(new Point(70,50), fx, fy, 2*Math.PI);
+	h.addAttributes(new ColorAttributes(true,false,Color.BLUE,Color.BLUE));
+	h.addAttributes(new SelectionAttributes());
+	this.model.add(h);
+		
+	int xpts[] = {100, 200, 300};
+	int ypts[] = {50, 60, 30};
+	SPolygon sp = new SPolygon(xpts, ypts, 3);
+	sp.addAttributes(new ColorAttributes(true,false,Color.BLUE,Color.BLUE));
+	sp.addAttributes(new SelectionAttributes());
+	this.model.add(sp);
+
     SCollection sc = new SCollection();
     sc.addAttributes(new SelectionAttributes());
     r = new SRectangle(new Point(20, 30), 30, 30);
