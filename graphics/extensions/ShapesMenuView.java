@@ -9,27 +9,43 @@ import graphics.shapes.ui.ShapesView;
 import graphics.shapes.SCollection;
 import graphics.shapes.SRectangle;
 
-import javax.swing.JButton;
-import javax.swing.JTextField;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JTextField;
 
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
 @SuppressWarnings ("serial")
 public class ShapesMenuView extends View{
     SCollection model;
-    String[] listOfShape = {"Rectangle","Cercle","Texte","Polygone"};
+    JButton strokedButton = new JButton("Contour");
+    JButton filledButton = new JButton("Remplissage");
+    JButton submitButton = new JButton("Valider");
+    JCheckBox enterCoordinate = new JCheckBox("Définir coordonnées :");
+    JRadioButton radioRectangle = new JRadioButton("Rectangle",true);
+    JRadioButton radioPolygon = new JRadioButton("Polygone");
+    JRadioButton radioCircle = new JRadioButton("Cercle");
+    JRadioButton radioText = new JRadioButton("Texte");
+    JTextField locX = new JTextField();
+    JTextField locY = new JTextField();
+    JTextField width = new JTextField();
+    JTextField height = new JTextField();
+    JTextField polygonSides = new JTextField("Nombre de côtés");
+    ButtonGroup radioGroup = new ButtonGroup();
 
     public ShapesMenuView(Object model) {
         super(model);
@@ -45,33 +61,32 @@ public class ShapesMenuView extends View{
         int buttonWidth=110;
         int buttonHeight=30;
 
-        //#region create component
-        JButton strokedButton = new JButton("Contour");
-        JButton filledButton = new JButton("Remplissage");
-        JButton submitButton = new JButton("Valider");
-        JCheckBox enterCoordinate = new JCheckBox("Définir coordonnées :");
-        JComboBox<String> shapeSelector = new JComboBox<String>(listOfShape);
-        JTextField locX = new JTextField();
-        JTextField locY = new JTextField();
-        JTextField width = new JTextField();
-        JTextField height = new JTextField();
-        //#endregion
-
         //#region setBounds
         enterCoordinate.setBounds(12, 40, 150, 21);
         locX.setBounds(179, 40, textFieldWidth, textFieldHeight);
         locY.setBounds(299, 40, textFieldWidth, textFieldHeight);
         width.setBounds(70, 128-(textFieldHeight/2), textFieldWidth, textFieldHeight); //128 is the y of the label corresponding to textfield 
         height.setBounds(240, 128-(textFieldHeight/2), textFieldWidth, textFieldHeight);
-        shapeSelector.setBounds(120, 10, textFieldWidth, textFieldHeight);
         filledButton.setBounds(232,70,buttonWidth,buttonHeight);
         strokedButton.setBounds(98,70,buttonWidth,buttonHeight);
         submitButton.setBounds(12, 155, 215, 30);
+        polygonSides.setBounds(410, 12, textFieldWidth, textFieldHeight);
+        radioRectangle.setBounds(70, 15, 85, 15);
+        radioPolygon.setBounds(310, 15, 85, 15);
+        radioCircle.setBounds(170, 15, 70, 15);
+        radioText.setBounds(245, 15, 60, 15);
         //#endregion
         
         locX.setEditable(false);
         locY.setEditable(false);
+        polygonSides.setEditable(false);
 
+        radioGroup.add(radioRectangle);
+        radioGroup.add(radioPolygon);
+        radioGroup.add(radioCircle);
+        radioGroup.add(radioText);
+
+        polygonSides.setHorizontalAlignment(JTextField.CENTER);
         width.setHorizontalAlignment(JTextField.CENTER);
         height.setHorizontalAlignment(JTextField.CENTER);
         locX.setHorizontalAlignment(JTextField.CENTER);
@@ -81,9 +96,16 @@ public class ShapesMenuView extends View{
         /*Toggle fields to editable for enter coordinate */
         enterCoordinate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            boolean editable = enterCoordinate.isSelected();
-            locX.setEditable(editable);
-            locY.setEditable(editable);
+                boolean editable = enterCoordinate.isSelected();
+                locX.setEditable(editable);
+                locY.setEditable(editable);
+            }
+        });
+
+        radioPolygon.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                boolean editable = radioPolygon.isSelected();
+                polygonSides.setEditable(editable);
             }
         });
 
@@ -119,7 +141,11 @@ public class ShapesMenuView extends View{
 
         /*To prevent ghost components*/
         this.removeAll();
-        add(shapeSelector);
+        add(radioRectangle);
+        add(radioPolygon);
+        add(radioCircle);
+        add(radioText);
+        add(polygonSides);
         add(locX);
         add(locY);
         add(filledButton);
@@ -130,7 +156,7 @@ public class ShapesMenuView extends View{
         add(width);
         
 
-        g.drawString("Nombre de cotés : ", 12, 25);
+        g.drawString("Forme : ", 12, 25);
         g.drawString("Couleur :", 12, 89);
         g.drawString("Largeur", 12, 128);
         g.drawString("Hauteur", 190, 128);
@@ -145,11 +171,40 @@ public class ShapesMenuView extends View{
     }
 
     public void buildShape() {
-
-        //SRectangle shape = new SRectangle(p, width, height);
+        JRadioButton next = (JRadioButton) radioGroup.getElements().nextElement();
+        if(next.isSelected());
+            System.out.println(next.getText());
+        switch(radioGroup.getElements().nextElement().getText()) {
+            case "Rectangle" :
+                buildRectangle();
+                break;
+            case "Cerle" :
+                buildCircle();
+                break;
+            case "Texte" :
+                buildText();
+                break;
+            case "Polygone" :
+                buildPolygone();
+                break;
+            default:
+                break;
+        }
     }
 
-    public Color createColorPalette() {
+    private void buildRectangle() {
+	}
+
+	private void buildCircle() {
+	}
+
+	private void buildText() {
+	}
+
+	private void buildPolygone() {
+	}
+
+	public Color createColorPalette() {
         JFrame window = new JFrame();
         window.setSize(600, 350);
         window.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );

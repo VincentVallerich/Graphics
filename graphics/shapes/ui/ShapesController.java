@@ -1,6 +1,7 @@
 package graphics.shapes.ui;
 
 import graphics.extensions.Game;
+import graphics.extensions.Paint;
 import graphics.shapes.SCollection;
 import graphics.shapes.SText;
 import graphics.shapes.Shape;
@@ -127,7 +128,10 @@ public class ShapesController extends Controller {
       gameModel();
       end = false;
     }
-
+	if(this.state==0 && evt.getKeyCode()==80) {
+			new Paint();
+		
+	}	
     if (this.onGame && !this.end) {
       switch (evt.getKeyCode()) {
         case 38:

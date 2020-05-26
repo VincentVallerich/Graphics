@@ -1,8 +1,0 @@
-{
-    "java.dependency.packagePresentation": "hierarchical",
-    "java.project.referencedLibraries": [
-        "lib/**/*.jar",
-        "graphics/extensions/swt-win64-3.6.2.jar"
-    ],
-    "java.dependency.syncWithFolderExplorer": true
-}

@@ -17,7 +17,7 @@ public class ShapeMenu extends JFrame{
         this.setDefaultCloseOperation( DISPOSE_ON_CLOSE );
         
         this.smview = new ShapesMenuView(model);
-        this.smview.setPreferredSize(new Dimension(430, 200));
+        this.smview.setPreferredSize(new Dimension(560, 200));
         this.setLocation(250, 10);
         
         JButton close = new JButton("Quitter");
