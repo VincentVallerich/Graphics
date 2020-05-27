@@ -36,11 +36,50 @@ public class SCurve extends Shape {
 
 	@Override
 	public Rectangle getBounds() {
-		return null;
+		Double x_max = findMax(fx, 0.0, time);
+		Double x_min = findMin(fx, 0.0, time);
+		Double y_max = findMax(fy, 0.0, time);
+		Double y_min = findMin(fy, 0.0, time);
+		
+		Rectangle rect = new Rectangle(loc.x+x_min.intValue(), loc.y+y_min.intValue(), x_max.intValue()-x_min.intValue(), y_max.intValue()-y_min.intValue());
+		return rect;
 	}
 
 	@Override
 	public void accept(ShapeVisitor v) {
 		v.visitCurve(this);
 	}
+	
+	private Double findMax(Function<Double,Double> f, Double lb, Double ub) {
+		Double step = 0.1;
+		Double a = lb;
+		Double max = f.apply(a);
+		Double f_m;
+		while (a < ub) {
+			a+=step;
+			f_m = f.apply(a);
+			if (f_m>max) {
+				max = f_m;
+			}
+		}
+		
+		return max;
+	}
+
+	private Double findMin(Function<Double,Double> f, Double lb, Double ub) {
+		Double step = 0.1;
+		Double a = lb;
+		Double min = f.apply(a);
+		Double f_m;
+		while (a < ub) {
+			a+=step;
+			f_m = f.apply(a);
+			if (f_m<min) {
+				min = f_m;
+			}
+		}
+		
+		return min;
+	}
+
 }

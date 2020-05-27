@@ -120,6 +120,8 @@ public class ShapeDraftman implements graphics.shapes.ShapeVisitor {
 		{
 			this.drawHandler(r);
 		}
+		
+		
 	}
 
 	
@@ -175,6 +177,9 @@ public class ShapeDraftman implements graphics.shapes.ShapeVisitor {
 	}
 	
 	public void visitCurve(SCurve s) {
+		String ids=new SelectionAttributes().getID();
+		SelectionAttributes sa=(SelectionAttributes) s.getAttributes(ids);
+		
 		Double step = s.time/100;
 		Double x = 0.0;
 		Double y = 0.0;
@@ -186,6 +191,9 @@ public class ShapeDraftman implements graphics.shapes.ShapeVisitor {
 			this.g2.draw(l);
 		}
 		
+		if(sa.isSelected()) {
+			this.drawHandler(s.getBounds());
+		}	
 	}
 	
 	public void drawHandler(Rectangle bounds)
