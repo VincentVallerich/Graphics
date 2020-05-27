@@ -50,7 +50,7 @@ public class ShapeDraftman implements graphics.shapes.ShapeVisitor {
 		if(ca.filled)
 		{
 			this.g2.setColor(ca.filledColor);
-			this.g2.fillPolygon(poly);;
+			this.g2.fillPolygon(poly);
 		}
 		
 		if(sa.isSelected())
@@ -120,8 +120,6 @@ public class ShapeDraftman implements graphics.shapes.ShapeVisitor {
 		{
 			this.drawHandler(r);
 		}
-		
-		
 	}
 
 	

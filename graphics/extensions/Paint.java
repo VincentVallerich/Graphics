@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
-
+@SuppressWarnings("serial")
 public class Paint extends JFrame implements MouseMotionListener {
 	private int x = 0, y=0;
 	public Color co;
@@ -52,8 +52,6 @@ public class Paint extends JFrame implements MouseMotionListener {
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
 	}
 	
 	public void paint(Graphics g) {
