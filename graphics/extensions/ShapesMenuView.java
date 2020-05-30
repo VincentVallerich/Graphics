@@ -12,6 +12,7 @@ import graphics.shapes.SText;
 
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
@@ -159,7 +160,12 @@ public class ShapesMenuView extends View{
 
         submitButton.addActionListener(new ActionListener() {
             String radioSelected="";
+            boolean emptyWidth = widthField.getText().trim().isEmpty();
+            boolean emptyHeight = widthField.getText().trim().isEmpty();
+
             public void actionPerformed(ActionEvent e) {
+                if (emptyWidth || emptyHeight)
+                    JOptionPane.showMessageDialog(null, "Longueur et largeur doivent être remplies", "Erreur", JOptionPane.ERROR_MESSAGE);
                 for (Enumeration<AbstractButton> buttons = radioGroup.getElements(); buttons.hasMoreElements();) {
                     AbstractButton button = buttons.nextElement();
         
@@ -235,6 +241,9 @@ public class ShapesMenuView extends View{
 	private void buildText() {
         Color fillColor = Color.BLACK;
         Color strokeColor = Color.BLACK;
+        boolean isFilled = false;
+        boolean isStroked = false;
+
         if (enterCoordinate.isSelected() && !locX.getText().equals("") && !locY.getText().equals(""))
             coordinate = new Point(Integer.parseInt(locX.getText()),Integer.parseInt(locY.getText()));
         else { 
@@ -242,11 +251,16 @@ public class ShapesMenuView extends View{
             coordinate.y-=Integer.parseInt(heightField.getText());
         }
         SText t = new SText(coordinate, textField.getText());
-        if (strokedButton.isBackgroundSet())
+        if (strokedButton.getBackground() != null) {
             strokeColor = strokedButton.getBackground();
-        if (filledButton.isBackgroundSet())
+            isStroked = true;
+        }
+        if (filledButton.getBackground() != null) {
             fillColor = filledButton.getBackground();
-        t.addAttributes(new ColorAttributes(filledButton.isBackgroundSet(), strokedButton.isBackgroundSet(), fillColor, strokeColor));
+            isFilled = true;
+        }
+        
+        t.addAttributes(new ColorAttributes(isFilled, isStroked, fillColor, strokeColor));
         t.addAttributes(new FontAttributes());
         t.addAttributes(new SelectionAttributes());
 

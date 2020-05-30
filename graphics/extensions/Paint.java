@@ -29,7 +29,6 @@ public class Paint extends JFrame implements MouseMotionListener,ActionListener 
 	public JTextField thickness;
 	public String t = "1";
 	public Paint() {
-
 		setSize(1200, 720);
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -45,8 +44,7 @@ public class Paint extends JFrame implements MouseMotionListener,ActionListener 
 		c.setLayout(new BorderLayout());
 		c.addMouseMotionListener(this);
 		c.add(jp,BorderLayout.NORTH);
-		setVisible(true);
-		
+		this.setVisible(true);
 	}
 
 	@Override
