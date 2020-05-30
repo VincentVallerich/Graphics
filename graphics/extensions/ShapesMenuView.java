@@ -8,9 +8,9 @@ import graphics.shapes.ui.ShapesController;
 import graphics.shapes.ui.ShapesView;
 import graphics.shapes.SCollection;
 import graphics.shapes.SRectangle;
+import graphics.shapes.SText;
 
 import javax.swing.JColorChooser;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -25,13 +25,15 @@ import java.awt.Point;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.util.Enumeration;
 
+/**
+ * Author VALLERICH Vincent
+ */
 @SuppressWarnings ("serial")
 public class ShapesMenuView extends View{
     SCollection model;
+    Point coordinate = new Point(150,150);
     JButton strokedButton = new JButton("Contour");
     JButton filledButton = new JButton("Remplissage");
     JButton submitButton = new JButton("Valider");
@@ -42,9 +44,9 @@ public class ShapesMenuView extends View{
     JRadioButton radioText = new JRadioButton("Texte");
     JTextField locX = new JTextField();
     JTextField locY = new JTextField();
-    JTextField width = new JTextField();
-    JTextField height = new JTextField();
-    JTextField polygonSides = new JTextField("Nombre de côtés");
+    JTextField widthField = new JTextField();
+    JTextField heightField = new JTextField();
+    JTextField textField = new JTextField();
     ButtonGroup radioGroup = new ButtonGroup();
 
     public ShapesMenuView(Object model) {
@@ -65,12 +67,12 @@ public class ShapesMenuView extends View{
         enterCoordinate.setBounds(12, 40, 150, 21);
         locX.setBounds(179, 40, textFieldWidth, textFieldHeight);
         locY.setBounds(299, 40, textFieldWidth, textFieldHeight);
-        width.setBounds(70, 128-(textFieldHeight/2), textFieldWidth, textFieldHeight); //128 is the y of the label corresponding to textfield 
-        height.setBounds(240, 128-(textFieldHeight/2), textFieldWidth, textFieldHeight);
+        widthField.setBounds(70, 128-(textFieldHeight/2), textFieldWidth, textFieldHeight); //128 is the y of the label corresponding to textfield 
+        heightField.setBounds(240, 128-(textFieldHeight/2), textFieldWidth, textFieldHeight);
         filledButton.setBounds(232,70,buttonWidth,buttonHeight);
         strokedButton.setBounds(98,70,buttonWidth,buttonHeight);
-        submitButton.setBounds(12, 155, 215, 30);
-        polygonSides.setBounds(410, 12, textFieldWidth, textFieldHeight);
+        submitButton.setBounds(50, 155, 460, 30);
+        textField.setBounds(410, 12, textFieldWidth, textFieldHeight);
         radioRectangle.setBounds(70, 15, 85, 15);
         radioPolygon.setBounds(310, 15, 85, 15);
         radioCircle.setBounds(170, 15, 70, 15);
@@ -79,16 +81,21 @@ public class ShapesMenuView extends View{
         
         locX.setEditable(false);
         locY.setEditable(false);
-        polygonSides.setEditable(false);
+        textField.setEditable(false);
+
+        radioRectangle.setActionCommand("Rectangle");
+        radioPolygon.setActionCommand("Polygon");
+        radioCircle.setActionCommand("Circle");
+        radioText.setActionCommand("Text");
 
         radioGroup.add(radioRectangle);
         radioGroup.add(radioPolygon);
         radioGroup.add(radioCircle);
         radioGroup.add(radioText);
 
-        polygonSides.setHorizontalAlignment(JTextField.CENTER);
-        width.setHorizontalAlignment(JTextField.CENTER);
-        height.setHorizontalAlignment(JTextField.CENTER);
+        textField.setHorizontalAlignment(JTextField.CENTER);
+        widthField.setHorizontalAlignment(JTextField.CENTER);
+        heightField.setHorizontalAlignment(JTextField.CENTER);
         locX.setHorizontalAlignment(JTextField.CENTER);
         locY.setHorizontalAlignment(JTextField.CENTER);
 
@@ -102,38 +109,65 @@ public class ShapesMenuView extends View{
             }
         });
 
+        radioRectangle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                boolean editable = radioText.isSelected();
+                textField.setEditable(editable);
+                textField.setText("");
+            }
+        });
+
+        radioCircle.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                boolean editable = radioText.isSelected();
+                textField.setEditable(editable);
+                textField.setText("");
+            }
+        });
+
         radioPolygon.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 boolean editable = radioPolygon.isSelected();
-                polygonSides.setEditable(editable);
+                textField.setEditable(editable);
+                textField.setText("Nombre de côtés");
+            }
+        });
+
+        radioText.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                boolean editable = radioText.isSelected();
+                textField.setEditable(editable);
+                textField.setText("Texte");
             }
         });
 
         strokedButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            strokedButton.setBackground(createColorPalette());
-            requestFocus();
-            invalidate();
+                strokedButton.setBackground(createColorPalette());
+                requestFocus();
+                invalidate();
             }
         });
 
         filledButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-            filledButton.setBackground(createColorPalette());
-            requestFocus();
-            invalidate();
+                filledButton.setBackground(createColorPalette());
+                requestFocus();
+                invalidate();
             }
         });
 
         submitButton.addActionListener(new ActionListener() {
+            String radioSelected="";
             public void actionPerformed(ActionEvent e) {
-                // model.addAttributes(new SelectionAttributes());
-            
-                // SRectangle r = new SRectangle(new Point(50, 50), 40, 30);
-                // r.addAttributes(new ColorAttributes(true, false, Color.ORANGE, Color.BLACK));
-                // r.addAttributes(new SelectionAttributes());
-                // model.add(r);
-                buildShape();
+                for (Enumeration<AbstractButton> buttons = radioGroup.getElements(); buttons.hasMoreElements();) {
+                    AbstractButton button = buttons.nextElement();
+        
+                    if (button.isSelected()) {
+                        radioSelected = button.getActionCommand();
+                    }
+                }    
+                buildShape(radioSelected);
                 refresh(model);
             }
         });
@@ -145,15 +179,15 @@ public class ShapesMenuView extends View{
         add(radioPolygon);
         add(radioCircle);
         add(radioText);
-        add(polygonSides);
+        add(textField);
         add(locX);
         add(locY);
         add(filledButton);
         add(submitButton);
         add(strokedButton);
         add(enterCoordinate);
-        add(height);
-        add(width);
+        add(heightField);
+        add(widthField);
         
 
         g.drawString("Forme : ", 12, 25);
@@ -168,23 +202,21 @@ public class ShapesMenuView extends View{
         ShapesController c = new ShapesController(model);
         c.setView(new ShapesView(model));
         c.getView().invalidate();
+        c.getView().invalidate();
     }
 
-    public void buildShape() {
-        JRadioButton next = (JRadioButton) radioGroup.getElements().nextElement();
-        if(next.isSelected());
-            System.out.println(next.getText());
-        switch(radioGroup.getElements().nextElement().getText()) {
+    public void buildShape(String shapeSelected) {
+        switch(shapeSelected) {
             case "Rectangle" :
                 buildRectangle();
                 break;
-            case "Cerle" :
+            case "Circle" :
                 buildCircle();
                 break;
-            case "Texte" :
+            case "Text" :
                 buildText();
                 break;
-            case "Polygone" :
+            case "Polygon" :
                 buildPolygone();
                 break;
             default:
@@ -193,15 +225,38 @@ public class ShapesMenuView extends View{
     }
 
     private void buildRectangle() {
+        System.out.println("Rectangle");
 	}
 
 	private void buildCircle() {
+        System.out.println("Circle");
 	}
 
 	private void buildText() {
+        Color fillColor = Color.BLACK;
+        Color strokeColor = Color.BLACK;
+        if (enterCoordinate.isSelected() && !locX.getText().equals("") && !locY.getText().equals(""))
+            coordinate = new Point(Integer.parseInt(locX.getText()),Integer.parseInt(locY.getText()));
+        else { 
+            coordinate.x-=Integer.parseInt(widthField.getText());
+            coordinate.y-=Integer.parseInt(heightField.getText());
+        }
+        SText t = new SText(coordinate, textField.getText());
+        if (strokedButton.isBackgroundSet())
+            strokeColor = strokedButton.getBackground();
+        if (filledButton.isBackgroundSet())
+            fillColor = filledButton.getBackground();
+        t.addAttributes(new ColorAttributes(filledButton.isBackgroundSet(), strokedButton.isBackgroundSet(), fillColor, strokeColor));
+        t.addAttributes(new FontAttributes());
+        t.addAttributes(new SelectionAttributes());
+
+        String id = new SelectionAttributes().getID();
+        ((SelectionAttributes) t.getAttributes(id)).select();
+        this.model.add(t);
 	}
 
 	private void buildPolygone() {
+        System.out.println("Polygone");
 	}
 
 	public Color createColorPalette() {

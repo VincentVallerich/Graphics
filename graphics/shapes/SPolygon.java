@@ -6,6 +6,9 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 
+/**
+ * Extension by CRESSEIN Martin
+ */
 public class SPolygon extends Shape {
 	
 	public Point loc;

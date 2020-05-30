@@ -8,6 +8,9 @@ import graphics.shapes.SRectangle;
 import graphics.shapes.attributes.ColorAttributes;
 import graphics.shapes.attributes.SelectionAttributes;
 
+/**
+ * Extension by EL MOUTAOUAKKIL Ayoub
+ */
 public class Game {
 
 	public Game(SCollection m )

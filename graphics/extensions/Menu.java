@@ -31,6 +31,8 @@ public class Menu {
     JMenuItem playGameItem = new JMenuItem("Jouer au jeu");
     playGameItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, KeyEvent.SHIFT_DOWN_MASK));
 
+    JMenuItem paint = new JMenuItem("Dessin libre");
+    
 
     /**
      * Implements ActionListener to buttons
@@ -58,8 +60,24 @@ public class Menu {
         }
     });
 
+    paint.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            /**
+             * Emulate p to access to the paint frame
+             */
+            try {
+              keyPressedEmulate = new Robot();
+              keyPressedEmulate.setAutoDelay(20);
+              keyPressedEmulate.keyPress(KeyEvent.VK_P);
+              keyPressedEmulate.keyRelease(KeyEvent.VK_P);
+            } catch (AWTException ei) {
+              ei.printStackTrace();
+            }
+        }
+    });
+
     menu.add(addShapeItem);
-    menu.addSeparator();
+    menu.add(paint);
     menu.add(playGameItem);
 
     menuBar.add(menu);

@@ -4,6 +4,9 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.function.Function;
 
+/**
+ * Extension by CRESSEIN Martin
+ */
 public class SCurve extends Shape {
 	
 	public Point loc;
