@@ -21,6 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.GridLayout;
 
+@SuppressWarnings ("serial")
 public class Paint extends JFrame implements MouseMotionListener,ActionListener {
 	private int x = 0, y = 0;
 	public Color co;

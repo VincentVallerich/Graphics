@@ -6,6 +6,7 @@ import graphics.shapes.attributes.FontAttributes;
 import graphics.shapes.attributes.SelectionAttributes;
 import graphics.shapes.ui.ShapesController;
 import graphics.shapes.ui.ShapesView;
+import graphics.shapes.SCircle;
 import graphics.shapes.SCollection;
 import graphics.shapes.SRectangle;
 import graphics.shapes.SText;
@@ -49,6 +50,11 @@ public class ShapesMenuView extends View{
     JTextField heightField = new JTextField();
     JTextField textField = new JTextField();
     ButtonGroup radioGroup = new ButtonGroup();
+    /** This i is for avoid the repeating of the call of button 
+     *like colors button and "Valider"
+     *else the action repeating 3 times
+     */
+    int i=0;
 
     public ShapesMenuView(Object model) {
         super(model);
@@ -144,7 +150,10 @@ public class ShapesMenuView extends View{
 
         strokedButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                strokedButton.setBackground(createColorPalette());
+                if (i%3==0){
+                    i+=3;
+                    strokedButton.setBackground(createColorPalette());
+                }
                 requestFocus();
                 invalidate();
             }
@@ -152,42 +161,49 @@ public class ShapesMenuView extends View{
 
         filledButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                filledButton.setBackground(createColorPalette());
+                if (i%3==0) {
+                    i+=3;
+                    filledButton.setBackground(createColorPalette());
+                }
                 requestFocus();
                 invalidate();
             }
         });
 
         submitButton.addActionListener(new ActionListener() {
-            String radioSelected="";
-            boolean emptyWidth = widthField.getText().trim().isEmpty();
-            boolean emptyHeight = widthField.getText().trim().isEmpty();
+            String radioSelected=null;
 
             public void actionPerformed(ActionEvent e) {
-                if (emptyWidth || emptyHeight)
-                    JOptionPane.showMessageDialog(null, "Longueur et largeur doivent être remplies", "Erreur", JOptionPane.ERROR_MESSAGE);
-                for (Enumeration<AbstractButton> buttons = radioGroup.getElements(); buttons.hasMoreElements();) {
-                    AbstractButton button = buttons.nextElement();
-        
-                    if (button.isSelected()) {
-                        radioSelected = button.getActionCommand();
+                if (i%3==0) {
+                    i+=3;
+                    boolean emptyWidth = widthField.getText().trim().isEmpty();
+                    boolean emptyHeight = widthField.getText().trim().isEmpty();
+                    if (emptyHeight || emptyWidth)
+                        JOptionPane.showMessageDialog(null, "Longueur et largeur doivent être remplies", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    else {
+                        for (Enumeration<AbstractButton> buttons = radioGroup.getElements(); buttons.hasMoreElements();) {
+                            AbstractButton button = buttons.nextElement();
+                            if (button.isSelected()) {
+                                radioSelected = button.getActionCommand();
+                            }
+                        }
+                        buildShape(radioSelected);
+                        refresh(model);
                     }
-                }    
-                buildShape(radioSelected);
-                refresh(model);
+                }
             }
         });
         //#endregion
 
         /*To prevent ghost components*/
         this.removeAll();
+        add(locX);
+        add(locY);
         add(radioRectangle);
         add(radioPolygon);
         add(radioCircle);
         add(radioText);
         add(textField);
-        add(locX);
-        add(locY);
         add(filledButton);
         add(submitButton);
         add(strokedButton);
@@ -207,7 +223,6 @@ public class ShapesMenuView extends View{
     public void refresh(Object model) {
         ShapesController c = new ShapesController(model);
         c.setView(new ShapesView(model));
-        c.getView().invalidate();
         c.getView().invalidate();
     }
 
@@ -231,11 +246,63 @@ public class ShapesMenuView extends View{
     }
 
     private void buildRectangle() {
-        System.out.println("Rectangle");
+        Color fillColor = Color.BLACK;
+        Color strokeColor = Color.BLACK;
+        boolean isFilled = false;
+        boolean isStroked = false;
+
+        if (enterCoordinate.isSelected() && !locX.getText().equals("") && !locY.getText().equals(""))
+            coordinate = new Point(Integer.parseInt(locX.getText()),Integer.parseInt(locY.getText()));
+        else { 
+            coordinate.x-=(Integer.parseInt(widthField.getText()))/2;
+            coordinate.y-=(Integer.parseInt(heightField.getText()))/2;
+        }
+        SRectangle r = new SRectangle(coordinate, Integer.parseInt(widthField.getText()), Integer.parseInt(heightField.getText()));
+        if (strokedButton.getBackground() != new Color(238,238,238)) {
+            strokeColor = strokedButton.getBackground();
+            isStroked = true;
+        }
+        if (filledButton.getBackground() != new Color(238,238,238)) {
+            fillColor = filledButton.getBackground();
+            isFilled = true;
+        }
+        
+        r.addAttributes(new ColorAttributes(isFilled, isStroked, fillColor, strokeColor));
+        r.addAttributes(new SelectionAttributes());
+
+        String id = new SelectionAttributes().getID();
+        ((SelectionAttributes) r.getAttributes(id)).select();
+        this.model.add(r);
 	}
 
 	private void buildCircle() {
-        System.out.println("Circle");
+        Color fillColor = Color.BLACK;
+        Color strokeColor = Color.BLACK;
+        boolean isFilled = false;
+        boolean isStroked = false;
+
+        if (enterCoordinate.isSelected() && !locX.getText().equals("") && !locY.getText().equals(""))
+            coordinate = new Point(Integer.parseInt(locX.getText()),Integer.parseInt(locY.getText()));
+        else { 
+            coordinate.x-=Integer.parseInt(widthField.getText());
+            coordinate.y-=Integer.parseInt(heightField.getText());
+        }
+        SCircle c = new SCircle(coordinate, Integer.parseInt(widthField.getText()));
+        if (strokedButton.getBackground() != new Color(238,238,238)) {
+            strokeColor = strokedButton.getBackground();
+            isStroked = true;
+        }
+        if (filledButton.getBackground() != new Color(238,238,238)) {
+            fillColor = filledButton.getBackground();
+            isFilled = true;
+        }
+        
+        c.addAttributes(new ColorAttributes(isFilled, isStroked, fillColor, strokeColor));
+        c.addAttributes(new SelectionAttributes());
+
+        String id = new SelectionAttributes().getID();
+        ((SelectionAttributes) c.getAttributes(id)).select();
+        this.model.add(c);
 	}
 
 	private void buildText() {
@@ -251,11 +318,11 @@ public class ShapesMenuView extends View{
             coordinate.y-=Integer.parseInt(heightField.getText());
         }
         SText t = new SText(coordinate, textField.getText());
-        if (strokedButton.getBackground() != null) {
+        if (strokedButton.getBackground() != new Color(238,238,238)) {
             strokeColor = strokedButton.getBackground();
             isStroked = true;
         }
-        if (filledButton.getBackground() != null) {
+        if (filledButton.getBackground() != new Color(238,238,238)) {
             fillColor = filledButton.getBackground();
             isFilled = true;
         }
