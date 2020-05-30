@@ -3,6 +3,8 @@ package graphics.shapes.ui;
 import graphics.extensions.Menu;
 import graphics.shapes.SCircle;
 import graphics.shapes.SCollection;
+import graphics.shapes.SCurve;
+import graphics.shapes.SPolygon;
 import graphics.shapes.SRectangle;
 import graphics.shapes.SText;
 import graphics.shapes.attributes.ColorAttributes;
@@ -11,6 +13,8 @@ import graphics.shapes.attributes.SelectionAttributes;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.util.function.Function;
+
 import javax.swing.JFrame;
 
 public class Editor extends JFrame {
@@ -55,6 +59,20 @@ public class Editor extends JFrame {
     t.addAttributes(new FontAttributes());
     t.addAttributes(new SelectionAttributes());
     this.model.add(t);
+
+   /* Function <Double,Double> fx = a -> 10*Math.pow(Math.sin(a), 3);
+    Function<Double,Double> fy = a -> 10*(Math.cos(a) - Math.pow(Math.cos(a), 4));
+    SCurve h = new SCurve(new Point(70,50), fx, fy, 2*Math.PI);
+    h.addAttributes(new ColorAttributes(true,false,Color.BLUE,Color.BLUE));
+    h.addAttributes(new SelectionAttributes());
+    this.model.add(h);*/
+		
+    int xpts[] = {100, 200, 300};
+    int ypts[] = {50, 60, 30};
+    SPolygon sp = new SPolygon(xpts, ypts, 3);
+    sp.addAttributes(new ColorAttributes(true,false,Color.BLUE,Color.BLUE));
+    sp.addAttributes(new SelectionAttributes());
+    this.model.add(sp);
 
     SCollection sc = new SCollection();
     sc.addAttributes(new SelectionAttributes());
