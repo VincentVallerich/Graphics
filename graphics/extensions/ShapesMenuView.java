@@ -337,7 +337,27 @@ public class ShapesMenuView extends View{
 	}
 
 	private void buildPolygone() {
-        System.out.println("Polygone");
+        int nbtpts,segLength;
+        double angle;
+        nbtpts = Integer.parseInt(textField.getText());
+        angle = Math.PI*(360/nbtpts)/180;
+        segLength = Integer.parseInt(widthField.getText());
+
+        int xpts[] = new int[nbtpts];
+        int ypts[] = new int[nbtpts];
+
+        for (int j=0; j<nbtpts; j++) {
+            
+            int currentX=0,currentY=0;
+            
+            for (int k=0; k<nbtpts; k++) {
+                currentX+=segLength*Math.cos(angle*k);
+                currentY+=segLength*Math.sin(angle*k);
+            }
+
+            xpts[i] = currentX;
+            ypts[i] = currentY;
+        }
 	}
 
 	public Color createColorPalette() {
