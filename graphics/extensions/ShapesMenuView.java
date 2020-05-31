@@ -113,7 +113,7 @@ public class ShapesMenuView extends View{
         /**
          * Implements Action Listener
          */
-        /*Toggle fields to editable for enter coordinate */
+        /*Toggle fields to editable for enter this.coordinate */
         enterCoordinate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 boolean editable = enterCoordinate.isSelected();
@@ -273,13 +273,16 @@ public class ShapesMenuView extends View{
         boolean isFilled = false;
         boolean isStroked = false;
 
-        if (enterCoordinate.isSelected() && !locX.getText().equals("") && !locY.getText().equals(""))
-            coordinate = new Point(Integer.parseInt(locX.getText()),Integer.parseInt(locY.getText()));
-        else { 
-            coordinate.x-=(Integer.parseInt(widthField.getText()))/2;
-            coordinate.y-=(Integer.parseInt(heightField.getText()))/2;
+        if (enterCoordinate.isSelected()) {
+            if (!locX.getText().equals("") && !locY.getText().equals("")){
+                this.coordinate.x = Integer.parseInt(locX.getText());
+                this.coordinate.y = Integer.parseInt(locY.getText());
+            }
         }
-        SRectangle r = new SRectangle(coordinate, Integer.parseInt(widthField.getText()), Integer.parseInt(heightField.getText()));
+        else { 
+            this.coordinate.x-=Integer.parseInt(widthField.getText())/2;
+            this.coordinate.y-=Integer.parseInt(widthField.getText())/2;
+        }
         if (strokedButton.getBackground() != new Color(238,238,238)) {
             strokeColor = strokedButton.getBackground();
             isStroked = true;
@@ -289,11 +292,15 @@ public class ShapesMenuView extends View{
             isFilled = true;
         }
         
+        SRectangle r = new SRectangle(this.coordinate, Integer.parseInt(widthField.getText()), Integer.parseInt(heightField.getText()));
         r.addAttributes(new ColorAttributes(isFilled, isStroked, fillColor, strokeColor));
         r.addAttributes(new SelectionAttributes());
 
         String id = new SelectionAttributes().getID();
         ((SelectionAttributes) r.getAttributes(id)).select();
+
+        this.coordinate = new Point(150,150);
+
         this.model.add(r);
 	}
 
@@ -305,15 +312,14 @@ public class ShapesMenuView extends View{
 
         if (enterCoordinate.isSelected()) {
             if (!locX.getText().equals("") && !locY.getText().equals("")){
-                coordinate.x = Integer.parseInt(locX.getText());
-                coordinate.y = Integer.parseInt(locY.getText());
+                this.coordinate.x = Integer.parseInt(locX.getText());
+                this.coordinate.y = Integer.parseInt(locY.getText());
             }
         }
         else { 
-            coordinate.x-=Integer.parseInt(widthField.getText())/2;
-            coordinate.y-=Integer.parseInt(widthField.getText())/2;
+            this.coordinate.x-=Integer.parseInt(widthField.getText())/2;
+            this.coordinate.y-=Integer.parseInt(widthField.getText())/2;
         }
-        SCircle c = new SCircle(coordinate, Integer.parseInt(widthField.getText()));
         if (strokedButton.getBackground() != new Color(238,238,238)) {
             strokeColor = strokedButton.getBackground();
             isStroked = true;
@@ -323,11 +329,15 @@ public class ShapesMenuView extends View{
             isFilled = true;
         }
         
+        SCircle c = new SCircle(this.coordinate, Integer.parseInt(widthField.getText()));
         c.addAttributes(new ColorAttributes(isFilled, isStroked, fillColor, strokeColor));
         c.addAttributes(new SelectionAttributes());
 
         String id = new SelectionAttributes().getID();
         ((SelectionAttributes) c.getAttributes(id)).select();
+
+        this.coordinate = new Point(150,150);
+
         this.model.add(c);
 	}
 
@@ -339,15 +349,14 @@ public class ShapesMenuView extends View{
 
         if (enterCoordinate.isSelected()) {
             if (!locX.getText().equals("") && !locY.getText().equals("")){
-                coordinate.x = Integer.parseInt(locX.getText());
-                coordinate.y = Integer.parseInt(locY.getText());
+                this.coordinate.x = Integer.parseInt(locX.getText());
+                this.coordinate.y = Integer.parseInt(locY.getText());
             }
         }
         else { 
-            coordinate.x-=Integer.parseInt(widthField.getText())/2;
-            coordinate.y-=Integer.parseInt(heightField.getText())/2;
+            this.coordinate.x-=Integer.parseInt(widthField.getText())/2;
+            this.coordinate.y-=Integer.parseInt(heightField.getText())/2;
         }
-        SText t = new SText(coordinate, textField.getText());
         if (strokedButton.getBackground() != new Color(238,238,238)) {
             strokeColor = strokedButton.getBackground();
             isStroked = true;
@@ -357,12 +366,16 @@ public class ShapesMenuView extends View{
             isFilled = true;
         }
         
+        SText t = new SText(this.coordinate, textField.getText());
         t.addAttributes(new ColorAttributes(isFilled, isStroked, fillColor, strokeColor));
         t.addAttributes(new FontAttributes());
         t.addAttributes(new SelectionAttributes());
 
         String id = new SelectionAttributes().getID();
         ((SelectionAttributes) t.getAttributes(id)).select();
+
+        coordinate = new Point(150,150);
+
         this.model.add(t);
 	}
 
@@ -378,7 +391,7 @@ public class ShapesMenuView extends View{
 
         for (int j=0; j<nbtpts; j++) {
             
-            int currentX=coordinate.x,currentY=coordinate.y;
+            int currentX=this.coordinate.x,currentY=this.coordinate.y;
             
             for (int k=0; k<j; k++) {
                 currentX+=segLength*Math.cos(angle*k);
@@ -394,16 +407,6 @@ public class ShapesMenuView extends View{
         boolean isFilled = false;
         boolean isStroked = false;
 
-        if (enterCoordinate.isSelected()) {
-            if (!locX.getText().equals("") && !locY.getText().equals("")){
-                coordinate.x = Integer.parseInt(locX.getText());
-                coordinate.y = Integer.parseInt(locY.getText());
-            }
-        }
-        else { 
-            coordinate.x-=Integer.parseInt(widthField.getText())/2;
-            coordinate.y-=Integer.parseInt(widthField.getText())/2;
-        }
         if (strokedButton.getBackground() != new Color(238,238,238)) {
             strokeColor = strokedButton.getBackground();
             isStroked = true;
@@ -419,6 +422,7 @@ public class ShapesMenuView extends View{
 
         String id = new SelectionAttributes().getID();
         ((SelectionAttributes) p.getAttributes(id)).select();
+
         this.model.add(p);
 	}
 
