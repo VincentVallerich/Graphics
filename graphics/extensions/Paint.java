@@ -3,6 +3,7 @@ package graphics.extensions;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -19,24 +20,29 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.GridLayout;
 
 @SuppressWarnings ("serial")
 public class Paint extends JFrame implements MouseMotionListener,ActionListener {
-	private int x = 0, y = 0;
-	public Color co;
-	public JButton colors;
-	public JColorChooser jColors;
-	public JTextField thickness;
-	public String t = "1";
+	private int x = -10, y = -10;
+	private Color co;
+	private JButton colors;
+	private JColorChooser jColors;
+	private JTextField thickness;
+	private JLabel jl;
+	private String t = "1";
+	
 	public Paint() {
 		setSize(1200, 720);
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		JPanel jp = new JPanel();
-		jp.setLayout(new GridLayout(1,2));
-		colors = new JButton("Select a color");
 		thickness = new JTextField(t,10);
+		colors = new JButton("Select a color");
+		colors.setBounds(0, 0, 60, 40);
+		thickness.setBounds(5,5,80,100);
+		jl = new JLabel("Taille");
+		jl.setLabelFor(thickness);
+		jp.addMouseMotionListener(this);
 		colors.addActionListener(this);
 		thickness.addActionListener(this);
 		jp.add(colors);
