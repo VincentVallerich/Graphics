@@ -26,11 +26,11 @@ public class Paint extends JFrame implements MouseMotionListener{
 	private Color co;
 	private JButton colors;
 	private JButton validate;
-	private JColorChooser jColors;
 	private JTextField thickness;
 	private String t = "1";
 	
 	public Paint() {
+		setTitle("Paint");
 		setSize(1200, 720);
 		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -43,7 +43,7 @@ public class Paint extends JFrame implements MouseMotionListener{
 		jp.addMouseMotionListener(this);
 		colors.addActionListener(new ActionListener(){
 			public void actionPerformed(final ActionEvent e) {
-				co = JColorChooser.showDialog(null,"Select a color",Color.BLACK);
+				co = JColorChooser.showDialog(null, "Select a color", Color.BLACK);
 			}
 		});
 		thickness.addActionListener(new ActionListener(){
