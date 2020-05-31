@@ -22,16 +22,19 @@ public class Menu {
   public JMenuBar createMenu(Object model) {
     JMenuBar menuBar = new JMenuBar();
     JMenu menu = new JMenu("Menu");
+    menu.setMnemonic('M');
 
     JMenuItem addShapeItem = new JMenuItem("Ajouter une forme...");
     addShapeItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, KeyEvent.SHIFT_DOWN_MASK));
-    
-    JMenuItem playGameItem = new JMenuItem("Jouer au jeu");
-    playGameItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, KeyEvent.VK_CONTROL));
+    addShapeItem.setMnemonic('A');
 
-    JMenuItem paint = new JMenuItem("Dessin libre");
-    paint.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.VK_CONTROL));
-    
+    JMenuItem playGameItem = new JMenuItem("Jouer au jeu");
+    playGameItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_G, KeyEvent.CTRL_DOWN_MASK));
+    playGameItem.setMnemonic('A');
+
+    JMenuItem paintItem = new JMenuItem("Dessin libre");
+    paintItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, KeyEvent.CTRL_DOWN_MASK));
+    paintItem.setMnemonic('P');
 
     /**
      * Implements ActionListener to buttons
@@ -49,14 +52,14 @@ public class Menu {
         }
     });
 
-    paint.addActionListener(new ActionListener() {
+    paintItem.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             new Paint();
         }
     });
 
     menu.add(addShapeItem);
-    menu.add(paint);
+    menu.add(paintItem);
     menu.add(playGameItem);
 
     menuBar.add(menu);

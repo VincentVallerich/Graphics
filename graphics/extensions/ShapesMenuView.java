@@ -42,7 +42,7 @@ public class ShapesMenuView extends View{
     JButton strokedButton = new JButton("Contour");
     JButton filledButton = new JButton("Remplissage");
     JButton submitButton = new JButton("Valider");
-    JCheckBox enterCoordinate = new JCheckBox("Définir coordonnées :");
+    JCheckBox enterCoordinate = new JCheckBox("Definir coordonnees :");
     JRadioButton radioRectangle = new JRadioButton("Rectangle",true);
     JRadioButton radioPolygon = new JRadioButton("Polygone");
     JRadioButton radioCircle = new JRadioButton("Cercle");
@@ -110,6 +110,9 @@ public class ShapesMenuView extends View{
         locY.setHorizontalAlignment(JTextField.CENTER);
 
         //#region ActionEvent
+        /**
+         * Implements Action Listener
+         */
         /*Toggle fields to editable for enter coordinate */
         enterCoordinate.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -139,7 +142,7 @@ public class ShapesMenuView extends View{
             public void actionPerformed(ActionEvent e) {
                 boolean editable = radioPolygon.isSelected();
                 textField.setEditable(editable);
-                textField.setText("Nombre de côtés");
+                textField.setText("Nombre de cotes");
             }
         });
 
@@ -153,8 +156,8 @@ public class ShapesMenuView extends View{
 
         strokedButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                i+=3;
-                if (i%3==0)
+                i++;
+                if (i%3==0  || i==0)
                     strokedButton.setBackground(createColorPalette());
                 requestFocus();
                 invalidate();
@@ -163,8 +166,8 @@ public class ShapesMenuView extends View{
 
         filledButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                i+=3;
-                if (i%3==0)
+                i++;
+                if (i%3==0 || i==0)
                     filledButton.setBackground(createColorPalette());
                 requestFocus();
                 invalidate();
@@ -175,7 +178,7 @@ public class ShapesMenuView extends View{
 			@Override
 			public void focusGained(FocusEvent e) {
                 String text = textField.getText();
-                if (text=="Nombre de côtés" || text=="Texte") {
+                if (text=="Nombre de cotes" || text=="Texte") {
                     textField.setText("");
                 }
 			}
@@ -190,12 +193,12 @@ public class ShapesMenuView extends View{
             String radioSelected=null;
 
             public void actionPerformed(ActionEvent e) {
-                i+=3;
-                if (i%3==0) {
+                i++;
+                if (i%3==0 || i==0) {
                     boolean emptyWidth = widthField.getText().trim().isEmpty();
-                    boolean emptyHeight = widthField.getText().trim().isEmpty();
+                    boolean emptyHeight = heightField.getText().trim().isEmpty();
                     if (emptyHeight || emptyWidth)
-                        JOptionPane.showMessageDialog(null, "Longueur et largeur doivent être remplies", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Longueur et largeur doivent etre remplies", "Erreur", JOptionPane.ERROR_MESSAGE);
                     else {
                         for (Enumeration<AbstractButton> buttons = radioGroup.getElements(); buttons.hasMoreElements();) {
                             AbstractButton button = buttons.nextElement();
