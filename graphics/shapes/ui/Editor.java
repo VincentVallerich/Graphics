@@ -65,13 +65,6 @@ public class Editor extends JFrame {
     h.addAttributes(new ColorAttributes(true,false,Color.BLUE,Color.BLUE));
     h.addAttributes(new SelectionAttributes());
     this.model.add(h);*/
-		
-    /*int xpts[] = {100, 200, 300};
-    int ypts[] = {50, 60, 30};
-    SPolygon sp = new SPolygon(xpts, ypts, 3);
-    sp.addAttributes(new ColorAttributes(true,false,Color.BLUE,Color.BLUE));
-    sp.addAttributes(new SelectionAttributes());
-    this.model.add(sp);*/
 
     SCollection sc = new SCollection();
     sc.addAttributes(new SelectionAttributes());
