@@ -21,7 +21,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 @SuppressWarnings ("serial")
-public class Paint extends JFrame implements MouseMotionListener,ActionListener {
+public class Paint extends JFrame implements MouseMotionListener {
 	private int x = -10, y = -10;
 	private Color co;
 	private JButton colors;
@@ -35,14 +35,27 @@ public class Paint extends JFrame implements MouseMotionListener,ActionListener 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		JPanel jp = new JPanel();
 		thickness = new JTextField(t,10);
-		colors = new JButton("Select a color");
+		colors = new JButton("Choisissez une couleur");
 		validate = new JButton("Valider");
 		colors.setBounds(0, 0, 60, 40);
 		thickness.setBounds(5,5,80,100);
+		validate.setBounds(0,100,60,40);
 		jp.addMouseMotionListener(this);
-		colors.addActionListener(this);
-		thickness.addActionListener(this);
-		validate.addActionListener(this);
+		colors.addActionListener(new ActionListener(){
+			public void actionPerformed(final ActionEvent e) {
+				co = JColorChooser.showDialog(null,"Select a color",Color.BLACK);
+			}
+		});
+		thickness.addActionListener(new ActionListener(){
+			public void actionPerformed(final ActionEvent e) {
+				t = thickness.getText();
+			}
+		});
+		validate.addActionListener(new ActionListener(){
+			public void actionPerformed(final ActionEvent e) {
+				t = thickness.getText();
+			}
+		});
 		jp.add(colors);
 		jp.add(thickness);
 		jp.add(validate);
@@ -64,10 +77,6 @@ public class Paint extends JFrame implements MouseMotionListener,ActionListener 
 	public void mouseMoved(final MouseEvent e) {
 	}
 	
-	public void actionPerformed(final ActionEvent e) {
-		co = JColorChooser.showDialog(null,"Select a color",Color.BLACK);
-		t = thickness.getText();
-	}
 
 	public void paint(final Graphics g) {
 		final Point p = new Point(x+15,y+45);
@@ -77,5 +86,4 @@ public class Paint extends JFrame implements MouseMotionListener,ActionListener 
 		sc.addAttributes(new SelectionAttributes());
 		sd.visitCircle(sc);
 	}
-	
 }
