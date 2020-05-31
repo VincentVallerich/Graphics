@@ -54,6 +54,17 @@ public class ShapesController extends Controller {
       ((SelectionAttributes) shape.getAttributes(id)).unselected();
     }
   }
+  
+  public void selectAll() {
+	    Shape shape = null;
+	    SCollection model = (SCollection) this.getModel();
+	    Iterator<Shape> iterator = model.iterator();
+	    String id = new SelectionAttributes().getID();
+	    while (iterator.hasNext()) {
+	      shape = iterator.next();
+	      ((SelectionAttributes) shape.getAttributes(id)).select();
+	    }
+	  }
 
   public void translateSelected(int x, int y) {
     Shape shape = null;
@@ -136,8 +147,11 @@ public class ShapesController extends Controller {
     }
 	if(this.state==0 && evt.getKeyCode()==80) {
 			new Paint();
-		
-	}	
+	}
+	if(this.state==0 && evt.getKeyCode()==KeyEvent.VK_A) {
+		this.selectAll();
+		this.getView().invalidate();
+	}
     if (this.onGame && !this.end) {
       switch (evt.getKeyCode()) {
         case 38:

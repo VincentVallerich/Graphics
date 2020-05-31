@@ -179,12 +179,13 @@ public class ShapeDraftman implements graphics.shapes.ShapeVisitor {
 	public void visitCurve(SCurve s) {
 		String ids=new SelectionAttributes().getID();
 		SelectionAttributes sa=(SelectionAttributes) s.getAttributes(ids);
+		int n = 1000;
 		
-		Double step = s.time/100;
+		Double step = s.time/n;
 		Double x = 0.0;
 		Double y = 0.0;
 		
-		for (int i=0; i<100; i++) {
+		for (int i=0; i<n; i++) {
 			java.awt.Shape l = new Line2D.Double(s.fx.apply(x)+s.loc.x, s.fy.apply(y)+s.loc.y, s.fx.apply(x+step)+s.loc.x, s.fy.apply(y+step)+s.loc.y);
 			x = x+step;
 			y = y+step;

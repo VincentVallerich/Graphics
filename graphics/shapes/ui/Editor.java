@@ -4,6 +4,7 @@ import graphics.extensions.Menu;
 import graphics.shapes.SCircle;
 import graphics.shapes.SCollection;
 import graphics.shapes.SCurve;
+import graphics.shapes.SPolygon;
 import graphics.shapes.SRectangle;
 import graphics.shapes.SText;
 import graphics.shapes.attributes.ColorAttributes;
@@ -59,13 +60,25 @@ public class Editor extends JFrame {
     t.addAttributes(new SelectionAttributes());
     this.model.add(t);
 
-    Function <Double,Double> fx = a -> -10*Math.pow(Math.sin(a), 3);
-    Function<Double,Double> fy = a -> -10*(Math.cos(a) - Math.pow(Math.cos(a), 4));
+    Function <Double,Double> fx = a -> -15*Math.pow(Math.sin(a), 3);
+    Function<Double,Double> fy = a -> -15*(Math.cos(a) - Math.pow(Math.cos(a), 4));
     SCurve h = new SCurve(new Point(70,50), fx, fy, 2*Math.PI);
     h.addAttributes(new ColorAttributes(true,false,Color.BLUE,Color.BLUE));
     h.addAttributes(new SelectionAttributes());
     this.model.add(h);
-
+    
+    int xpts[] = new int[100];
+    int ypts[] = new int[100];
+    Double step = 2*Math.PI/100;
+    for(int i=0; i<100; i++) {
+    	xpts[i] = 60 + fx.apply(i*step).intValue();
+    	ypts[i] = 20 + fy.apply(i*step).intValue();
+    }
+    SPolygon pol = new SPolygon(xpts, ypts, 100);
+    pol.addAttributes(new ColorAttributes(true,false,Color.BLUE,Color.BLUE));
+    pol.addAttributes(new SelectionAttributes());
+    this.model.add(pol);
+    
     SCollection sc = new SCollection();
     sc.addAttributes(new SelectionAttributes());
     r = new SRectangle(new Point(20, 30), 30, 30);
