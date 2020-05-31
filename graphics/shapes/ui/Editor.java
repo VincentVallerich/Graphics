@@ -3,7 +3,7 @@ package graphics.shapes.ui;
 import graphics.extensions.Menu;
 import graphics.shapes.SCircle;
 import graphics.shapes.SCollection;
-import graphics.shapes.SPolygon;
+import graphics.shapes.SCurve;
 import graphics.shapes.SRectangle;
 import graphics.shapes.SText;
 import graphics.shapes.attributes.ColorAttributes;
@@ -59,12 +59,12 @@ public class Editor extends JFrame {
     t.addAttributes(new SelectionAttributes());
     this.model.add(t);
 
-   /* Function <Double,Double> fx = a -> 10*Math.pow(Math.sin(a), 3);
-    Function<Double,Double> fy = a -> 10*(Math.cos(a) - Math.pow(Math.cos(a), 4));
+    Function <Double,Double> fx = a -> -10*Math.pow(Math.sin(a), 3);
+    Function<Double,Double> fy = a -> -10*(Math.cos(a) - Math.pow(Math.cos(a), 4));
     SCurve h = new SCurve(new Point(70,50), fx, fy, 2*Math.PI);
     h.addAttributes(new ColorAttributes(true,false,Color.BLUE,Color.BLUE));
     h.addAttributes(new SelectionAttributes());
-    this.model.add(h);*/
+    this.model.add(h);
 
     SCollection sc = new SCollection();
     sc.addAttributes(new SelectionAttributes());

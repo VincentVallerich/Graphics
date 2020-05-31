@@ -41,5 +41,4 @@ public class SPolygon extends Shape {
 	public void accept(ShapeVisitor v) {
 		v.visitPolygon(this);
 	}
-
 }

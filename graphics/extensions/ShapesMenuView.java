@@ -28,6 +28,8 @@ import java.awt.Point;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Enumeration;
 
 /**
@@ -169,6 +171,22 @@ public class ShapesMenuView extends View{
             }
         });
 
+        textField.addFocusListener(new FocusListener() {
+			@Override
+			public void focusGained(FocusEvent e) {
+                String text = textField.getText();
+                System.out.println(text);
+                if (text=="Nombre de côtés" || text=="Texte") {
+                    textField.setText("");
+                }
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				// TODO Auto-generated method stub
+			}
+        });
+
         submitButton.addActionListener(new ActionListener() {
             String radioSelected=null;
 
@@ -177,6 +195,7 @@ public class ShapesMenuView extends View{
                 if (i%3==0) {
                     boolean emptyWidth = widthField.getText().trim().isEmpty();
                     boolean emptyHeight = widthField.getText().trim().isEmpty();
+                    System.out.println(emptyHeight+","+emptyHeight);
                     if (emptyHeight || emptyWidth)
                         JOptionPane.showMessageDialog(null, "Longueur et largeur doivent être remplies", "Erreur", JOptionPane.ERROR_MESSAGE);
                     else {

@@ -3,7 +3,6 @@ package graphics.extensions;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -27,9 +26,7 @@ public class Paint extends JFrame implements MouseMotionListener,ActionListener 
 	private Color co;
 	private JButton colors;
 	private JButton validate;
-	private JColorChooser jColors;
 	private JTextField thickness;
-	private JLabel jl;
 	private String t = "1";
 	
 	public Paint() {
@@ -39,7 +36,7 @@ public class Paint extends JFrame implements MouseMotionListener,ActionListener 
 		JPanel jp = new JPanel();
 		thickness = new JTextField(t,10);
 		colors = new JButton("Select a color");
-		validate = new JButton("Validate");
+		validate = new JButton("Valider");
 		colors.setBounds(0, 0, 60, 40);
 		thickness.setBounds(5,5,80,100);
 		jp.addMouseMotionListener(this);
