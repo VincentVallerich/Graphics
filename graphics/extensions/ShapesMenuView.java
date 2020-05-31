@@ -8,6 +8,7 @@ import graphics.shapes.ui.ShapesController;
 import graphics.shapes.ui.ShapesView;
 import graphics.shapes.SCircle;
 import graphics.shapes.SCollection;
+import graphics.shapes.SPolygon;
 import graphics.shapes.SRectangle;
 import graphics.shapes.SText;
 
@@ -150,10 +151,9 @@ public class ShapesMenuView extends View{
 
         strokedButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (i%3==0){
-                    i+=3;
+                i++;
+                if (i%3==0)
                     strokedButton.setBackground(createColorPalette());
-                }
                 requestFocus();
                 invalidate();
             }
@@ -161,10 +161,9 @@ public class ShapesMenuView extends View{
 
         filledButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (i%3==0) {
-                    i+=3;
+                i++;
+                if (i%3==0)
                     filledButton.setBackground(createColorPalette());
-                }
                 requestFocus();
                 invalidate();
             }
@@ -174,8 +173,8 @@ public class ShapesMenuView extends View{
             String radioSelected=null;
 
             public void actionPerformed(ActionEvent e) {
+                i++;
                 if (i%3==0) {
-                    i+=3;
                     boolean emptyWidth = widthField.getText().trim().isEmpty();
                     boolean emptyHeight = widthField.getText().trim().isEmpty();
                     if (emptyHeight || emptyWidth)
@@ -348,16 +347,44 @@ public class ShapesMenuView extends View{
 
         for (int j=0; j<nbtpts; j++) {
             
-            int currentX=0,currentY=0;
+            int currentX=coordinate.x,currentY=coordinate.y;
             
-            for (int k=0; k<nbtpts; k++) {
+            for (int k=0; k<j; k++) {
                 currentX+=segLength*Math.cos(angle*k);
                 currentY+=segLength*Math.sin(angle*k);
             }
 
-            xpts[i] = currentX;
-            ypts[i] = currentY;
+            xpts[j] = currentX;
+            ypts[j] = currentY;
         }
+
+        Color fillColor = Color.BLACK;
+        Color strokeColor = Color.BLACK;
+        boolean isFilled = false;
+        boolean isStroked = false;
+
+        if (enterCoordinate.isSelected() && !locX.getText().equals("") && !locY.getText().equals(""))
+            coordinate = new Point(Integer.parseInt(locX.getText()),Integer.parseInt(locY.getText()));
+        else { 
+            coordinate.x-=Integer.parseInt(widthField.getText());
+            coordinate.y-=Integer.parseInt(heightField.getText());
+        }
+        if (strokedButton.getBackground() != new Color(238,238,238)) {
+            strokeColor = strokedButton.getBackground();
+            isStroked = true;
+        }
+        if (filledButton.getBackground() != new Color(238,238,238)) {
+            fillColor = filledButton.getBackground();
+            isFilled = true;
+        }
+        
+        SPolygon p = new SPolygon(xpts,ypts,nbtpts);
+        p.addAttributes(new ColorAttributes(isFilled, isStroked, fillColor, strokeColor));
+        p.addAttributes(new SelectionAttributes());
+
+        String id = new SelectionAttributes().getID();
+        ((SelectionAttributes) p.getAttributes(id)).select();
+        this.model.add(p);
 	}
 
 	public Color createColorPalette() {
