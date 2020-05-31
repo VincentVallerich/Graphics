@@ -197,7 +197,7 @@ public class ShapesMenuView extends View{
                 if (i%3==0 || i==0) {
                     boolean emptyWidth = widthField.getText().trim().isEmpty();
                     boolean emptyHeight = heightField.getText().trim().isEmpty();
-                    if (emptyHeight || emptyWidth
+                    if (emptyHeight || emptyWidth)
                         JOptionPane.showMessageDialog(null, "Longueur et largeur doivent etre remplies", "Erreur", JOptionPane.ERROR_MESSAGE);
                     else {
                         for (Enumeration<AbstractButton> buttons = radioGroup.getElements(); buttons.hasMoreElements();) {
