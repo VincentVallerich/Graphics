@@ -6,15 +6,13 @@ import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
 
-/**
- * Extension by CRESSEIN Martin
- */
 public class SPolygon extends Shape {
 	
 	public Point loc;
 	Polygon poly;
 
 	public SPolygon (int xpts[], int ypts[], int npts) {
+		this.loc = new Point(xpts[0], ypts[0]);
 		this.poly = new Polygon(xpts, ypts, npts);
 	}
 	
@@ -32,6 +30,7 @@ public class SPolygon extends Shape {
 
 	public void translate(int dx, int dy) {
 		this.loc.translate(dx, dy);
+		this.poly.translate(dx, dy);
 	}
 
 	public Rectangle getBounds() {

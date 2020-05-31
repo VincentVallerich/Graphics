@@ -153,7 +153,7 @@ public class ShapesMenuView extends View{
 
         strokedButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                i++;
+                i+=3;
                 if (i%3==0)
                     strokedButton.setBackground(createColorPalette());
                 requestFocus();
@@ -163,7 +163,7 @@ public class ShapesMenuView extends View{
 
         filledButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                i++;
+                i+=3;
                 if (i%3==0)
                     filledButton.setBackground(createColorPalette());
                 requestFocus();
@@ -175,7 +175,6 @@ public class ShapesMenuView extends View{
 			@Override
 			public void focusGained(FocusEvent e) {
                 String text = textField.getText();
-                System.out.println(text);
                 if (text=="Nombre de côtés" || text=="Texte") {
                     textField.setText("");
                 }
@@ -191,11 +190,10 @@ public class ShapesMenuView extends View{
             String radioSelected=null;
 
             public void actionPerformed(ActionEvent e) {
-                i++;
+                i+=3;
                 if (i%3==0) {
                     boolean emptyWidth = widthField.getText().trim().isEmpty();
                     boolean emptyHeight = widthField.getText().trim().isEmpty();
-                    System.out.println(emptyHeight+","+emptyHeight);
                     if (emptyHeight || emptyWidth)
                         JOptionPane.showMessageDialog(null, "Longueur et largeur doivent être remplies", "Erreur", JOptionPane.ERROR_MESSAGE);
                     else {
