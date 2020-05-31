@@ -22,7 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 
 @SuppressWarnings ("serial")
-public class Paint extends JFrame implements MouseMotionListener,ActionListener {
+public class Paint extends JFrame implements MouseMotionListener{
 	private int x = -10, y = -10;
 	private Color co;
 	private JButton colors;
@@ -68,14 +68,14 @@ public class Paint extends JFrame implements MouseMotionListener,ActionListener 
 	}
 
 	@Override
-	public void mouseDragged(final MouseEvent e) {
+	public void mouseDragged(MouseEvent e) {
 		x=e.getX();
 		y=e.getY();
 		repaint();
 	}
 
 	@Override
-	public void mouseMoved(final MouseEvent e) {
+	public void mouseMoved( MouseEvent e) {
 	}
 	
 
